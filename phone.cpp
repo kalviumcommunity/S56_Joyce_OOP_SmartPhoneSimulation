@@ -1,4 +1,8 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 class Screen {
@@ -66,8 +70,7 @@ public:
 };
 
 int main() {
-    // Array of Screen objects
-    Screen screens[2];  // Array of 2 Screen objects
+    Screen screens[2]; 
     
     for(int i = 0; i < 2; i++) {
         cout << "Screen " << i + 1 << " - Brightness level: ";
