@@ -14,28 +14,28 @@ class Screen{
     Screen(): bright(0),charge(0){}
     
     void setBrightness(const int newBright){
-        bright=newBright;
+        this->bright=newBright;
     }
     
     void getBrightness(){
-        if(bright<10){
+        if(this->bright<10){
             cout<<"lower the brightness"<<endl;
         }
         else{
-            cout<< bright<<endl;
+            cout<<this->bright<<endl;
         }
     }
     
     void setCharging(const int newCharge){
-        charge=newCharge;
+        this->charge=newCharge;
     }
     
     void getCharging(){
-        if(charge<15){
+        if(this->charge<15){
             cout<<"charge your phone"<<endl;
         }
         else{
-            cout<<charge<<endl;
+            cout<<this->charge<<endl;
         }
     }
 };
@@ -50,12 +50,12 @@ class App{
     App(): productive(0),nonProductive(0),time(0){}
 
     void setProd(const int newProductive, int newNonProductive){
-        productive=newProductive;
-        nonProductive=newNonProductive;
+        this->productive=newProductive;
+        this->nonProductive=newNonProductive;
     }
 
     void getProd(){
-        if(productive>nonProductive){
+        if(this->productive>this->nonProductive){
             cout<<"The productivity of your apps is more"<<endl;
         }
         else{
@@ -64,10 +64,10 @@ class App{
     }
 
     void setTime(const int newTime){
-        time=newTime;
+        this->time=newTime;
     }
     int getTime(){
-        return time;
+        return this->time;
     }
 };
 
