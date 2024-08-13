@@ -34,6 +34,33 @@ public:
             cout << "charge your phone" << endl;
         } else {
             cout << charge << endl;
+    
+    public:
+    Screen(): bright(0),charge(0){}
+    
+    void setBrightness(const int newBright){
+        this->bright=newBright;
+    }
+    
+    void getBrightness(){
+        if(this->bright<10){
+            cout<<"lower the brightness"<<endl;
+        }
+        else{
+            cout<<this->bright<<endl;
+        }
+    }
+    
+    void setCharging(const int newCharge){
+        this->charge=newCharge;
+    }
+    
+    void getCharging(){
+        if(this->charge<15){
+            cout<<"charge your phone"<<endl;
+        }
+        else{
+            cout<<this->charge<<endl;
         }
     }
 };
@@ -66,6 +93,26 @@ public:
 
     int getTime() {
         return time;
+
+    void setProd(const int newProductive, int newNonProductive){
+        this->productive=newProductive;
+        this->nonProductive=newNonProductive;
+    }
+
+    void getProd(){
+        if(this->productive>this->nonProductive){
+            cout<<"The productivity of your apps is more"<<endl;
+        }
+        else{
+            cout<<"Non-Productive apps are more uninstall few!"<<endl;
+        }
+    }
+
+    void setTime(const int newTime){
+        this->time=newTime;
+    }
+    int getTime(){
+        return this->time;
     }
 };
 
