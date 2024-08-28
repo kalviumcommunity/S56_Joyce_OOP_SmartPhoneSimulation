@@ -6,6 +6,7 @@ private:
     int bright;
     int charge;
     static int screenCount; 
+
 public:
     Screen() : bright(0), charge(0) {
         screenCount++;
@@ -35,12 +36,13 @@ public:
         }
     }
 
-    static void showScreenCount() {
-        cout << "Total Screens: " << screenCount << endl;
+    static int getScreenCount() {
+        return screenCount; 
     }
 };
 
-int Screen::screenCount = 0; 
+
+int Screen::screenCount = 0;
 
 class App {
 private:
@@ -51,7 +53,7 @@ private:
 
 public:
     App() : productive(0), nonProductive(0), time(0) {
-        appCount++;
+        appCount++; 
     }
 
     void setProd(const int newProductive, int newNonProductive) {
@@ -75,12 +77,12 @@ public:
         return time;
     }
 
-    static void showAppCount() {
-        cout << "Total Apps: " << appCount << endl;
+    static int getAppCount() {
+        return appCount; 
     }
 };
 
-int App::appCount = 0; 
+int App::appCount = 0;
 
 int main() {
     Screen objScreen1;
@@ -98,7 +100,8 @@ int main() {
     objScreen1.setCharging(charge);
     objScreen1.getCharging();
 
-    Screen::showScreenCount(); 
+    cout << "Total Screens created: " << Screen::getScreenCount() << endl; 
+
     cout << "No. of Productive apps: ";
     int productive;
     cin >> productive;
@@ -107,6 +110,7 @@ int main() {
     cin >> nonProductive;
 
     App objApp1;
+    App objApp2;
     objApp1.setProd(productive, nonProductive);
     objApp1.getProd();
 
@@ -116,7 +120,7 @@ int main() {
     objApp1.setTime(time);
     cout << "Total time: " << objApp1.getTime() << endl;
 
-    App::showAppCount(); 
+    cout << "Total Apps created: " << App::getAppCount() << endl; 
 
     return 0;
 }
