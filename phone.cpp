@@ -86,19 +86,16 @@ public:
 };
 
 int main() {
-    // Create Screen object using constructor
     int brightness, charge;
     cout << "Enter brightness level: ";
     cin >> brightness;
     cout << "Enter charging level: ";
     cin >> charge;
     Screen objScreen(brightness, charge);
-    
-    // Screen operations
+
     objScreen.getBrightness();
     objScreen.getCharging();
 
-    // Create App object using constructor
     int productive, nonProductive, time;
     cout << "Enter the number of productive apps: ";
     cin >> productive;
@@ -107,11 +104,9 @@ int main() {
     cout << "Enter screen time (in hours): ";
     cin >> time;
     App objApp(productive, nonProductive, time);
-    
-    // App operations
+
     objApp.getProd();
     objApp.displayScreenTime();
 
-    // Main function ends, destructors will be called automatically
     return 0;
 }
