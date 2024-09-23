@@ -3,124 +3,108 @@ using namespace std;
 
 class Screen {
 private:
-    int bright;
-    int charge;
-    static int screenCount; 
+    int brightness;
+    int chargeLevel;
 
 public:
-    Screen() : bright(0), charge(0) {
-        screenCount++;
+    Screen() : brightness(0), chargeLevel(0) {}
+
+    void setBrightness(const int newBrightness) {
+        brightness = newBrightness;
     }
 
-    void setBrightness(const int newBright) {
-        bright = newBright;
+    int getBrightness() const {
+        return brightness;
     }
 
-    void getBrightness() {
-        if (bright < 10) {
-            cout << "lower the brightness" << endl;
+    void setChargeLevel(const int newChargeLevel) {
+        chargeLevel = newChargeLevel;
+    }
+
+    int getChargeLevel() const {
+        return chargeLevel;
+    }
+
+    void checkBrightness() const {
+        if (brightness < 10) {
+            cout << "Lower the brightness" << endl;
         } else {
-            cout << bright << endl;
+            cout << "Brightness is: " << brightness << endl;
         }
     }
 
-    void setCharging(const int newCharge) {
-        charge = newCharge;
-    }
-
-    void getCharging() {
-        if (charge < 15) {
-            cout << "charge your phone" << endl;
+    void checkCharge() const {
+        if (chargeLevel < 15) {
+            cout << "Charge your phone" << endl;
         } else {
-            cout << charge << endl;
+            cout << "Charge level is: " << chargeLevel << "%" << endl;
         }
-    }
-
-    static int getScreenCount() {
-        return screenCount; 
     }
 };
-
-
-int Screen::screenCount = 0;
 
 class App {
 private:
-    int productive;
-    int nonProductive;
-    int time;
-    static int appCount; 
+    int productiveApps;
+    int nonProductiveApps;
+    int screenTime;
 
 public:
-    App() : productive(0), nonProductive(0), time(0) {
-        appCount++; 
+
+    App() : productiveApps(0), nonProductiveApps(0), screenTime(0) {}
+
+    void setAppUsage(int prod, int nonProd) {
+        productiveApps = prod;
+        nonProductiveApps = nonProd;
     }
 
-    void setProd(const int newProductive, int newNonProductive) {
-        productive = newProductive;
-        nonProductive = newNonProductive;
+    void setScreenTime(const int time) {
+        screenTime = time;
     }
 
-    void getProd() {
-        if (productive > nonProductive) {
-            cout << "The productivity of your apps is more" << endl;
+    int getScreenTime() const {
+        return screenTime;
+    }
+
+    void evaluateAppUsage() const {
+        if (productiveApps > nonProductiveApps) {
+            cout << "The productivity of your apps is more." << endl;
         } else {
-            cout << "Non-Productive apps are more, uninstall a few!" << endl;
+            cout << "Non-Productive apps are more, consider uninstalling a few!" << endl;
         }
     }
 
-    void setTime(const int newTime) {
-        time = newTime;
-    }
-
-    int getTime() {
-        return time;
-    }
-
-    static int getAppCount() {
-        return appCount; 
+    void displayScreenTime() const {
+        cout << "Screen time is: " << screenTime << " hours." << endl;
     }
 };
 
-int App::appCount = 0;
-
 int main() {
-    Screen objScreen1;
-    Screen objScreen2;
+    Screen screenObj;
+    App appObj;
 
-    cout << "Brightness level: ";
-    int bright;
-    cin >> bright;
-    objScreen1.setBrightness(bright);
-    objScreen1.getBrightness();
+    int brightness, charge;
+    cout << "Enter brightness level: ";
+    cin >> brightness;
+    screenObj.setBrightness(brightness);
+    screenObj.checkBrightness();
 
-    cout << "Charging level: ";
-    int charge;
+    cout << "Enter charging level: ";
     cin >> charge;
-    objScreen1.setCharging(charge);
-    objScreen1.getCharging();
+    screenObj.setChargeLevel(charge);
+    screenObj.checkCharge();
 
-    cout << "Total Screens created: " << Screen::getScreenCount() << endl; 
-
-    cout << "No. of Productive apps: ";
-    int productive;
+    int productive, nonProductive, time;
+    cout << "Enter the number of productive apps: ";
     cin >> productive;
-    cout << "No. of Non-Productive apps: ";
-    int nonProductive;
+    cout << "Enter the number of non-productive apps: ";
     cin >> nonProductive;
+    appObj.setAppUsage(productive, nonProductive);
+    appObj.evaluateAppUsage();
 
-    App objApp1;
-    App objApp2;
-    objApp1.setProd(productive, nonProductive);
-    objApp1.getProd();
-
-    cout << "Screen Time: ";
-    int time;
+    cout << "Enter screen time (in hours): ";
     cin >> time;
-    objApp1.setTime(time);
-    cout << "Total time: " << objApp1.getTime() << endl;
-
-    cout << "Total Apps created: " << App::getAppCount() << endl; 
+    appObj.setScreenTime(time);
+    appObj.displayScreenTime();
 
     return 0;
 }
