@@ -1,29 +1,40 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
-class Screen {
-private:
+class Device {
+    protected:
+    string modelName;
+
+    public:
+    Device(): modelName("") {}
+
+    void setModelName(const string& newModelName) {
+        modelName = newModelName;
+    }
+
+    void getModelName() const {
+        cout << "Device Model: " << modelName << endl;
+    }
+};
+
+class Screen : public Device {
+    private:
     int bright;
     int charge;
-
-public:
-    Screen(int initBright, int initCharge) : bright(initBright), charge(initCharge) {
-        cout << "Screen object created with Brightness: " << bright << " and Charge: " << charge << "%" << endl;
-    }
-
-    ~Screen() {
-        cout << "Screen object destroyed" << endl;
-    }
+    
+    public:
+    Screen(): bright(0), charge(0) {}
 
     void setBrightness(const int newBright) {
         bright = newBright;
     }
 
-    void getBrightness() {
-        if (bright < 10) {
+    void getBrightness() const {
+        if(bright < 10) {
             cout << "Lower the brightness" << endl;
         } else {
-            cout << "Brightness is: " << bright << endl;
+            cout << "Brightness: " << bright << endl;
         }
     }
 
@@ -31,82 +42,98 @@ public:
         charge = newCharge;
     }
 
-    void getCharging() {
-        if (charge < 15) {
+    void getCharging() const {
+        if(charge < 15) {
             cout << "Charge your phone" << endl;
         } else {
-            cout << "Charge level is: " << charge << "%" << endl;
+            cout << "Charging level: " << charge << endl;
         }
     }
 };
 
 class App {
-private:
+    private:
     int productive;
     int nonProductive;
-    int time;
 
-public:
-
-    App(int initProductive, int initNonProductive, int initTime) 
-        : productive(initProductive), nonProductive(initNonProductive), time(initTime) {
-        cout << "App object created with Productive apps: " << productive 
-             << ", Non-Productive apps: " << nonProductive 
-             << ", and Screen Time: " << time << " hours" << endl;
-    }
-
-    ~App() {
-        cout << "App object destroyed" << endl;
-    }
+    public:
+    App(): productive(0), nonProductive(0) {}
 
     void setProd(const int newProductive, const int newNonProductive) {
         productive = newProductive;
         nonProductive = newNonProductive;
     }
 
-    void getProd() {
-        if (productive > nonProductive) {
+    void getProd() const {
+        if(productive > nonProductive) {
             cout << "The productivity of your apps is more" << endl;
         } else {
-            cout << "Non-Productive apps are more, uninstall a few!" << endl;
+            cout << "Non-productive apps are more, uninstall a few!" << endl;
         }
     }
+};
+
+class SmartPhone : public App {
+    private:
+    int screenTime;
+
+    public:
+    SmartPhone(): screenTime(0) {}
 
     void setTime(const int newTime) {
-        time = newTime;
+        screenTime = newTime;
     }
 
-    int getTime() {
-        return time;
+    void getTime() const {
+        cout << "Screen Time: " << screenTime << " hours" << endl;
     }
 
-    void displayScreenTime() {
-        cout << "Screen time is: " << time << " hours." << endl;
+    void overallDeviceStatus() const {
+        if(screenTime > 5) {
+            cout << "You have been using the phone for too long!" << endl;
+        } else {
+            cout << "Usage is under control." << endl;
+        }
     }
 };
 
 int main() {
-    int brightness, charge;
-    cout << "Enter brightness level: ";
-    cin >> brightness;
-    cout << "Enter charging level: ";
-    cin >> charge;
-    Screen objScreen(brightness, charge);
 
+    Screen objScreen;
+    objScreen.setModelName("Galaxy S21");
+    objScreen.getModelName();
+
+    cout << "Enter brightness level: ";
+    int bright;
+    cin >> bright;
+    objScreen.setBrightness(bright);
     objScreen.getBrightness();
+  
+    cout << "Enter charging level: ";
+    int charge;
+    cin >> charge;
+    objScreen.setCharging(charge);
     objScreen.getCharging();
 
-    int productive, nonProductive, time;
+
+    SmartPhone objSmartPhone;
+
     cout << "Enter the number of productive apps: ";
+    int productive;
     cin >> productive;
+  
     cout << "Enter the number of non-productive apps: ";
+    int nonProductive;
     cin >> nonProductive;
-    cout << "Enter screen time (in hours): ";
+    objSmartPhone.setProd(productive, nonProductive);
+    objSmartPhone.getProd();
+  
+    cout << "Enter screen time in hours: ";
+    int time;
     cin >> time;
-    App objApp(productive, nonProductive, time);
-
-    objApp.getProd();
-    objApp.displayScreenTime();
-
+    objSmartPhone.setTime(time);
+    objSmartPhone.getTime();
+    objSmartPhone.overallDeviceStatus();
+  
     return 0;
 }
