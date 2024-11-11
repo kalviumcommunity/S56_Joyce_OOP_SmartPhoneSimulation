@@ -1,69 +1,67 @@
-#include <cmath>
-#include <cstdio>
-#include <vector>
 #include <iostream>
-#include <algorithm>
 using namespace std;
 
-class Screen {
-    private:
+class Device {
+public:
+    virtual void showStatus() = 0;  
+    virtual ~Device() {}       
+};
+
+class Screen : public Device {
+private:
     int bright;
     int charge;
-    
-    public:
-    Screen(): bright(0), charge(0) {}
-    
+
+public:
+    Screen() : bright(0), charge(0) {}
+
     void setBrightness(const int newBright) {
         bright = newBright;
     }
-    
+
     void getBrightness() {
-        if(bright < 10) {
+        if (bright < 10) {
             cout << "Lower the brightness" << endl;
         } else {
             cout << "Brightness level: " << bright << endl;
         }
     }
-    
+
     void setCharging(const int newCharge) {
         charge = newCharge;
     }
-    
+
     void getCharging() {
-        if(charge < 15) {
+        if (charge < 15) {
             cout << "Charge your phone" << endl;
         } else {
             cout << "Charging level: " << charge << "%" << endl;
         }
     }
+
+    void showStatus() override {
+        cout << "Screen Status - ";
+        getBrightness();
+        getCharging();
+    }
 };
 
-class App {
-    private:
+class App : public Device {
+private:
     int productive;
     int nonProductive;
     int time;
 
-    public:
-    App(): productive(0), nonProductive(0), time(0) {}
+public:
+    App() : productive(0), nonProductive(0), time(0) {}
 
     void setProd(const int newProductive, int newNonProductive) {
         productive = newProductive;
         nonProductive = newNonProductive;
     }
-    
-    void setProd(const int newProductive) {
-        productive = newProductive;
-    }
-    
-    void setProd(bool isNonProductive, const int newNonProductive) {
-        if (isNonProductive) {
-            nonProductive = newNonProductive;
-        }
-    }
 
     void getProd() {
-        if(productive > nonProductive) {
+        if (productive > nonProductive) {
             cout << "The productivity of your apps is higher" << endl;
         } else {
             cout << "Non-Productive apps are more. Consider uninstalling a few!" << endl;
@@ -77,6 +75,12 @@ class App {
     int getTime() {
         return time;
     }
+
+    void showStatus() override {
+        cout << "App Status - ";
+        getProd();
+        cout << "Screen time: " << getTime() << " hours" << endl;
+    }
 };
 
 int main() {
@@ -85,13 +89,11 @@ int main() {
     int bright;
     cin >> bright;
     objScreen.setBrightness(bright);
-    objScreen.getBrightness();
-  
+
     cout << "Enter charging level: ";
     int charge;
     cin >> charge;
     objScreen.setCharging(charge);
-    objScreen.getCharging();
 
     App objApp;
     cout << "Enter the number of productive apps: ";
@@ -101,13 +103,16 @@ int main() {
     int nonProductive;
     cin >> nonProductive;
     objApp.setProd(productive, nonProductive);
-    objApp.getProd();
-  
+
     cout << "Enter screen time (in hours): ";
     int time;
     cin >> time;
     objApp.setTime(time);
-    cout << "Screen Time: " << objApp.getTime() << " hours" << endl;
+
+    Device* devices[2] = {&objScreen, &objApp};
+    for (Device* device : devices) {
+        device->showStatus();
+    }
 
     return 0;
 }
