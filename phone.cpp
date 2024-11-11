@@ -1,52 +1,39 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
 #include <iostream>
-#include <string>
+#include <algorithm>
 using namespace std;
 
-class Device {
-    protected:
-    string modelName;
-
-    public:
-    Device(): modelName("") {}
-
-    void setModelName(const string& newModelName) {
-        modelName = newModelName;
-    }
-
-    void getModelName() const {
-        cout << "Device Model: " << modelName << endl;
-    }
-};
-
-class Screen : public Device {
+class Screen {
     private:
     int bright;
     int charge;
     
     public:
     Screen(): bright(0), charge(0) {}
-
+    
     void setBrightness(const int newBright) {
         bright = newBright;
     }
-
-    void getBrightness() const {
+    
+    void getBrightness() {
         if(bright < 10) {
             cout << "Lower the brightness" << endl;
         } else {
-            cout << "Brightness: " << bright << endl;
+            cout << "Brightness level: " << bright << endl;
         }
     }
-
+    
     void setCharging(const int newCharge) {
         charge = newCharge;
     }
-
-    void getCharging() const {
+    
+    void getCharging() {
         if(charge < 15) {
             cout << "Charge your phone" << endl;
         } else {
-            cout << "Charging level: " << charge << endl;
+            cout << "Charging level: " << charge << "%" << endl;
         }
     }
 };
@@ -55,54 +42,45 @@ class App {
     private:
     int productive;
     int nonProductive;
+    int time;
 
     public:
-    App(): productive(0), nonProductive(0) {}
+    App(): productive(0), nonProductive(0), time(0) {}
 
-    void setProd(const int newProductive, const int newNonProductive) {
+    void setProd(const int newProductive, int newNonProductive) {
         productive = newProductive;
         nonProductive = newNonProductive;
     }
-
-    void getProd() const {
-        if(productive > nonProductive) {
-            cout << "The productivity of your apps is more" << endl;
-        } else {
-            cout << "Non-productive apps are more, uninstall a few!" << endl;
+    
+    void setProd(const int newProductive) {
+        productive = newProductive;
+    }
+    
+    void setProd(bool isNonProductive, const int newNonProductive) {
+        if (isNonProductive) {
+            nonProductive = newNonProductive;
         }
     }
-};
 
-class SmartPhone : public App {
-    private:
-    int screenTime;
-
-    public:
-    SmartPhone(): screenTime(0) {}
+    void getProd() {
+        if(productive > nonProductive) {
+            cout << "The productivity of your apps is higher" << endl;
+        } else {
+            cout << "Non-Productive apps are more. Consider uninstalling a few!" << endl;
+        }
+    }
 
     void setTime(const int newTime) {
-        screenTime = newTime;
+        time = newTime;
     }
-
-    void getTime() const {
-        cout << "Screen Time: " << screenTime << " hours" << endl;
-    }
-
-    void overallDeviceStatus() const {
-        if(screenTime > 5) {
-            cout << "You have been using the phone for too long!" << endl;
-        } else {
-            cout << "Usage is under control." << endl;
-        }
+    
+    int getTime() {
+        return time;
     }
 };
 
 int main() {
-
     Screen objScreen;
-    objScreen.setModelName("Galaxy S21");
-    objScreen.getModelName();
-
     cout << "Enter brightness level: ";
     int bright;
     cin >> bright;
@@ -115,25 +93,21 @@ int main() {
     objScreen.setCharging(charge);
     objScreen.getCharging();
 
-
-    SmartPhone objSmartPhone;
-
+    App objApp;
     cout << "Enter the number of productive apps: ";
     int productive;
     cin >> productive;
-  
     cout << "Enter the number of non-productive apps: ";
     int nonProductive;
     cin >> nonProductive;
-    objSmartPhone.setProd(productive, nonProductive);
-    objSmartPhone.getProd();
+    objApp.setProd(productive, nonProductive);
+    objApp.getProd();
   
-    cout << "Enter screen time in hours: ";
+    cout << "Enter screen time (in hours): ";
     int time;
     cin >> time;
-    objSmartPhone.setTime(time);
-    objSmartPhone.getTime();
-    objSmartPhone.overallDeviceStatus();
-  
+    objApp.setTime(time);
+    cout << "Screen Time: " << objApp.getTime() << " hours" << endl;
+
     return 0;
 }
