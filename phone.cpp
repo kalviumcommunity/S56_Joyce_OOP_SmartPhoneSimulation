@@ -1,13 +1,7 @@
 #include <iostream>
 using namespace std;
 
-class Device {
-public:
-    virtual void showStatus() = 0;  
-    virtual ~Device() {}       
-};
-
-class Screen : public Device {
+class Screen {
 private:
     int bright;
     int charge;
@@ -19,11 +13,11 @@ public:
         bright = newBright;
     }
 
-    void getBrightness() {
+    void getBrightness() const {
         if (bright < 10) {
             cout << "Lower the brightness" << endl;
         } else {
-            cout << "Brightness level: " << bright << endl;
+            cout << "Brightness: " << bright << endl;
         }
     }
 
@@ -31,22 +25,39 @@ public:
         charge = newCharge;
     }
 
-    void getCharging() {
+    void getCharging() const {
         if (charge < 15) {
             cout << "Charge your phone" << endl;
         } else {
-            cout << "Charging level: " << charge << "%" << endl;
+            cout << "Charge: " << charge << "%" << endl;
         }
-    }
-
-    void showStatus() override {
-        cout << "Screen Status - ";
-        getBrightness();
-        getCharging();
     }
 };
 
-class App : public Device {
+
+class ExtendedScreen : public Screen {
+private:
+    bool darkMode;
+
+public:
+    ExtendedScreen() : darkMode(false) {}
+
+    void enableDarkMode() {
+        darkMode = true;
+        cout << "Dark mode enabled" << endl;
+    }
+
+    void disableDarkMode() {
+        darkMode = false;
+        cout << "Dark mode disabled" << endl;
+    }
+
+    void getDarkModeStatus() const {
+        cout << "Dark mode is " << (darkMode ? "enabled" : "disabled") << endl;
+    }
+};
+
+class App {
 private:
     int productive;
     int nonProductive;
@@ -55,64 +66,86 @@ private:
 public:
     App() : productive(0), nonProductive(0), time(0) {}
 
-    void setProd(const int newProductive, int newNonProductive) {
+    void setProd(const int newProductive, const int newNonProductive) {
         productive = newProductive;
         nonProductive = newNonProductive;
     }
 
-    void getProd() {
+    void getProd() const {
         if (productive > nonProductive) {
-            cout << "The productivity of your apps is higher" << endl;
+            cout << "The productivity of your apps is more" << endl;
         } else {
-            cout << "Non-Productive apps are more. Consider uninstalling a few!" << endl;
+            cout << "Non-Productive apps are more, uninstall a few!" << endl;
         }
     }
 
     void setTime(const int newTime) {
         time = newTime;
     }
-    
-    int getTime() {
+
+    int getTime() const {
         return time;
     }
+};
 
-    void showStatus() override {
-        cout << "App Status - ";
-        getProd();
-        cout << "Screen time: " << getTime() << " hours" << endl;
+class ExtendedApp : public App {
+private:
+    int focusTime; 
+
+public:
+    ExtendedApp() : focusTime(0) {}
+
+    void setFocusTime(const int newFocusTime) {
+        focusTime = newFocusTime;
+    }
+
+    void getFocusTime() const {
+        cout << "Focus Time: " << focusTime << " minutes" << endl;
     }
 };
 
 int main() {
-    Screen objScreen;
-    cout << "Enter brightness level: ";
+
+    ExtendedScreen objScreen;
+    cout << "Brightness level: ";
     int bright;
     cin >> bright;
     objScreen.setBrightness(bright);
+    objScreen.getBrightness();
 
-    cout << "Enter charging level: ";
+    cout << "Charging level: ";
     int charge;
     cin >> charge;
     objScreen.setCharging(charge);
+    objScreen.getCharging();
 
-    App objApp;
-    cout << "Enter the number of productive apps: ";
+
+    objScreen.enableDarkMode();
+    objScreen.getDarkModeStatus();
+
+
+    ExtendedApp objApp;
+    cout << "No. of Productive apps: ";
     int productive;
     cin >> productive;
-    cout << "Enter the number of non-productive apps: ";
+    cout << "No. of Non-Productive apps: ";
     int nonProductive;
     cin >> nonProductive;
     objApp.setProd(productive, nonProductive);
+    objApp.getProd();
 
-    cout << "Enter screen time (in hours): ";
+    cout << "Screen Time: ";
     int time;
     cin >> time;
     objApp.setTime(time);
+    cout << "Time Spent on Screen: " << objApp.getTime() << " minutes" << endl;
 
-    Device* devices[2] = {&objScreen, &objApp};
-    for (Device* device : devices) {
-        device->showStatus();
-    }
+ 
+    cout << "Focus Time: ";
+    int focusTime;
+    cin >> focusTime;
+    objApp.setFocusTime(focusTime);
+    objApp.getFocusTime();
 
     return 0;
 }
