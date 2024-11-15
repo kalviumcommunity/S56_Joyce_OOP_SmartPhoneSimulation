@@ -9,11 +9,11 @@ private:
 public:
     Screen() : bright(0), charge(0) {}
 
-    void setBrightness(const int newBright) {
+    virtual void setBrightness(const int newBright) {
         bright = newBright;
     }
 
-    void getBrightness() const {
+    virtual void getBrightness() const {
         if (bright < 10) {
             cout << "Lower the brightness" << endl;
         } else {
@@ -21,11 +21,11 @@ public:
         }
     }
 
-    void setCharging(const int newCharge) {
+    virtual void setCharging(const int newCharge) {
         charge = newCharge;
     }
 
-    void getCharging() const {
+    virtual void getCharging() const {
         if (charge < 15) {
             cout << "Charge your phone" << endl;
         } else {
@@ -34,26 +34,25 @@ public:
     }
 };
 
-
-class ExtendedScreen : public Screen {
+class AdvancedScreen : public Screen {
 private:
-    bool darkMode;
+    bool powerSavingMode;
 
 public:
-    ExtendedScreen() : darkMode(false) {}
+    AdvancedScreen() : powerSavingMode(false) {}
 
-    void enableDarkMode() {
-        darkMode = true;
-        cout << "Dark mode enabled" << endl;
+    void enablePowerSavingMode() {
+        powerSavingMode = true;
+        cout << "Power-saving mode enabled" << endl;
     }
 
-    void disableDarkMode() {
-        darkMode = false;
-        cout << "Dark mode disabled" << endl;
+    void disablePowerSavingMode() {
+        powerSavingMode = false;
+        cout << "Power-saving mode disabled" << endl;
     }
 
-    void getDarkModeStatus() const {
-        cout << "Dark mode is " << (darkMode ? "enabled" : "disabled") << endl;
+    void getPowerSavingModeStatus() const {
+        cout << "Power-saving mode is " << (powerSavingMode ? "enabled" : "disabled") << endl;
     }
 };
 
@@ -66,12 +65,12 @@ private:
 public:
     App() : productive(0), nonProductive(0), time(0) {}
 
-    void setProd(const int newProductive, const int newNonProductive) {
+    virtual void setProd(const int newProductive, const int newNonProductive) {
         productive = newProductive;
         nonProductive = newNonProductive;
     }
 
-    void getProd() const {
+    virtual void getProd() const {
         if (productive > nonProductive) {
             cout << "The productivity of your apps is more" << endl;
         } else {
@@ -79,73 +78,79 @@ public:
         }
     }
 
-    void setTime(const int newTime) {
+    virtual void setTime(const int newTime) {
         time = newTime;
     }
 
-    int getTime() const {
+    virtual int getTime() const {
         return time;
     }
 };
 
-class ExtendedApp : public App {
+class AdvancedApp : public App {
 private:
-    int focusTime; 
+    int totalUsageTime;
 
 public:
-    ExtendedApp() : focusTime(0) {}
+    AdvancedApp() : totalUsageTime(0) {}
 
-    void setFocusTime(const int newFocusTime) {
-        focusTime = newFocusTime;
+    void setTotalUsageTime(const int newUsageTime) {
+        totalUsageTime = newUsageTime;
     }
 
-    void getFocusTime() const {
-        cout << "Focus Time: " << focusTime << " minutes" << endl;
+    void getTotalUsageTime() const {
+        cout << "Total Usage Time: " << totalUsageTime << " minutes" << endl;
     }
 };
 
 int main() {
 
-    ExtendedScreen objScreen;
+    Screen* screen = new AdvancedScreen();
     cout << "Brightness level: ";
     int bright;
     cin >> bright;
-    objScreen.setBrightness(bright);
-    objScreen.getBrightness();
+    screen->setBrightness(bright);
+    screen->getBrightness();
 
     cout << "Charging level: ";
     int charge;
     cin >> charge;
-    objScreen.setCharging(charge);
-    objScreen.getCharging();
+    screen->setCharging(charge);
+    screen->getCharging();
 
+    AdvancedScreen* advScreen = dynamic_cast<AdvancedScreen*>(screen);
+    if (advScreen) {
+        advScreen->enablePowerSavingMode();
+        advScreen->getPowerSavingModeStatus();
+    }
 
-    objScreen.enableDarkMode();
-    objScreen.getDarkModeStatus();
-
-
-    ExtendedApp objApp;
+    App* app = new AdvancedApp();
     cout << "No. of Productive apps: ";
     int productive;
     cin >> productive;
     cout << "No. of Non-Productive apps: ";
     int nonProductive;
     cin >> nonProductive;
-    objApp.setProd(productive, nonProductive);
-    objApp.getProd();
+    app->setProd(productive, nonProductive);
+    app->getProd();
 
     cout << "Screen Time: ";
     int time;
     cin >> time;
-    objApp.setTime(time);
-    cout << "Time Spent on Screen: " << objApp.getTime() << " minutes" << endl;
+    app->setTime(time);
+    cout << "Time Spent on Screen: " << app->getTime() << " minutes" << endl;
 
- 
-    cout << "Focus Time: ";
-    int focusTime;
-    cin >> focusTime;
-    objApp.setFocusTime(focusTime);
-    objApp.getFocusTime();
+    AdvancedApp* advApp = dynamic_cast<AdvancedApp*>(app);
+    if (advApp) {
+        cout << "Total Usage Time: ";
+        int usageTime;
+        cin >> usageTime;
+        advApp->setTotalUsageTime(usageTime);
+        advApp->getTotalUsageTime();
+    }
 
+
+    delete screen;
+    delete app;
     return 0;
 }
